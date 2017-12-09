@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Profile>Reach</Profile>
+  <Platform>Windows</Platform>
+  <Config />
+  <SourceFiles>
+    <File>C:/Users/Onger Donger/Desktop/Tetris/MonogameTetris/Tetris_monogame/Tetris/Tetris/Content/TetrisBlock.png</File>
+    <File>C:/Users/Onger Donger/Desktop/Tetris/MonogameTetris/Tetris_monogame/Tetris/Tetris/Content/block.png</File>
+    <File>C:/Users/Onger Donger/Desktop/Tetris/MonogameTetris/Tetris_monogame/Tetris/Tetris/Content/Score.spritefont</File>
+    <File>C:/Users/Onger Donger/Desktop/Tetris/MonogameTetris/Tetris_monogame/Tetris/Tetris/Content/Window.png</File>
+    <File>C:/Users/Onger Donger/Desktop/Tetris/MonogameTetris/Tetris_monogame/Tetris/Tetris/Content/options.png</File>
+    <File>C:/Users/Onger Donger/Desktop/Tetris/MonogameTetris/Tetris_monogame/Tetris/Tetris/Content/PlayGame.png</File>
+    <File>C:/Users/Onger Donger/Desktop/Tetris/MonogameTetris/Tetris_monogame/Tetris/Tetris/Content/tetris_logo.jpg</File>
+    <File>C:/Users/Onger Donger/Desktop/Tetris/MonogameTetris/Tetris_monogame/Tetris/Tetris/Content/Tetris.mp3</File>
+    <File>C:/Users/Onger Donger/Desktop/Tetris/MonogameTetris/Tetris_monogame/Tetris/Tetris/Content/maxresdefault.jpg</File>
+  </SourceFiles>
+</SourceFileCollection>
