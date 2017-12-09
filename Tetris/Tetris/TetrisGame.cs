@@ -69,7 +69,7 @@ namespace Tetris
         int moveRightState = 0;
         int moveDownState = 0;
 
-
+        //
         public TetrisGame()
         {
             graphics = new GraphicsDeviceManager(this);
