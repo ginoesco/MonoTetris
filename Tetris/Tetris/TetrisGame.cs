@@ -534,6 +534,7 @@ namespace Tetris
 
         public void DeleteLines(int[,] gameArray)
         {
+            int oldLines = linesCleared;
             for (int y =17; y>=0; y--) //Traversing the row
             {
                 bool clear = true;
@@ -557,7 +558,30 @@ namespace Tetris
                     y++;
                 }
             }
+            CalculateScore(oldLines, linesCleared);
             CalculateLevel();
+        }
+
+        /// <summary>
+        /// Function used to calculate the score of the current game. As the user advances to a higher level, there is a multiplication factor
+        /// </summary>
+        /// <param name="oldLines"></param>
+        /// <param name="newLines"></param>
+        public void CalculateScore(int oldLines, int newLines)
+        {
+            switch (newLines - oldLines)
+            {
+                case 0: score += 0;
+                        break;
+                case 1: score += 40*(level+1);
+                        break;
+                case 2: score += 100* (level + 1);
+                        break;
+                case 3: score += 300* (level + 1);
+                        break;
+                case 4: score += 1200* (level + 1);
+                        break;
+            }
         }
 
         /// <summary>
