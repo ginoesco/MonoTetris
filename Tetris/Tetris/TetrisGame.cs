@@ -14,7 +14,8 @@ namespace Tetris
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Shapes shapeObj = new Shapes();
-        Random rnd = new Random(DateTime.Now.Millisecond);
+        Shapes nextShapeObj = new Shapes();
+        static Random rnd = new Random(DateTime.Now.Millisecond);
         GameBoard gbObj = new GameBoard();
         Vector2 tetrisBlock;
         List<int[,]> rotate = new List<int[,]>();
@@ -37,8 +38,8 @@ namespace Tetris
 
         //game details
         private int score = 0;
-        private int level = 1;
-        private int linesCleared = 19;
+        private int level = 0;
+        private int linesCleared = 0;
         //end of game details
 
         const int pixelWidth = 32;
@@ -63,8 +64,8 @@ namespace Tetris
         int rotateIndex = 0;
         int rnum = 0;
         int count = 0; //used in timer
-        int currentShape = 6;
-        int nextShape;
+        int currentShape = rnd.Next(1,7);
+        int nextShape= rnd.Next(1,7);
         int moveLeftState = 0;
         int moveRightState = 0;
         int moveDownState = 0;
@@ -147,41 +148,41 @@ namespace Tetris
         /// </summary>
         public void CalculateLevel()
         {
-            if ((linesCleared >= 0 && linesCleared < 20))
+            if (level ==9 || (linesCleared >=160))
             {
-                level = 1;
+                level = 9;
             }
-            else if ((linesCleared >= 20 && linesCleared < 40))
-            {
-                level = 2;
-            }
-            else if ((linesCleared >= 40 && linesCleared <= 60))
-            {
-                level = 3;
-            }
-            else if ((linesCleared >= 60 && linesCleared < 80))
-            {
-                level = 4;
-            }
-            else if ((linesCleared >= 80 && linesCleared < 100))
-            {
-                level = 5;
-            }
-            else if ((linesCleared >= 100 && linesCleared < 120))
-            {
-                level = 6;
-            }
-            else if ((linesCleared >= 120 && linesCleared < 140))
-            {
-                level = 7;
-            }
-            else if ((linesCleared >= 140 && linesCleared < 160))
+            else if (level == 8 || (linesCleared >= 140 && linesCleared < 160))
             {
                 level = 8;
             }
-            else
+            else if (level ==7 || (linesCleared >= 120 && linesCleared < 140))
             {
-                level = 9;
+                level = 7;
+            }
+            else if (level ==6 ||(linesCleared >= 100 && linesCleared < 120))
+            {
+                level = 6;
+            }
+            else if (level ==5 ||(linesCleared >= 80 && linesCleared < 100))
+            {
+                level = 5;
+            }
+            else if (level ==4 ||(linesCleared >= 60 && linesCleared < 80))
+            {
+                level = 4;
+            }
+            else if (level == 3 ||(linesCleared >= 40 && linesCleared <= 60))
+            {
+                level = 3;
+            }
+            else if (level == 2|| (linesCleared >= 20 && linesCleared < 40))
+            {
+                level = 2;
+            }
+            else if ((linesCleared >= 0 && linesCleared < 20))
+            {
+                level = 1;
             }
         }
 
@@ -467,6 +468,7 @@ namespace Tetris
         public void drawShape(bool whichShape)
         {
             List<int[,]> shapeList = shapeObj.GetShapeList();
+            List<int[,]> nextShapeList = nextShapeObj.GetShapeList();
             List<Color> Colors = shapeObj.GetColorList();
             int leftmostX = 99;
             int rightmostX = -1;
@@ -517,12 +519,12 @@ namespace Tetris
             }
             else //Drawing the shape in the next shape block
             {
-                shape2 = shapeList[nextShape];
+                shape2 = nextShapeList[nextShape];
                 for (int i = 0; i < 4; i++)
                 {
                     for (int k = 0; k < 4; k++)
                     {
-                        if (shape2[k, i] == 1)
+                        if (shape2[k, i] != 0)
                         {
                             spriteBatch.Draw(block, new Rectangle(750 + i * pixelWidth, 500 + k * pixelLength, pixelWidth, pixelLength), Colors[nextShape]);
                         }
