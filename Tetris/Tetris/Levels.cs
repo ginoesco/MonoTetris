@@ -60,28 +60,28 @@ namespace Tetris
                     timer = 60;
                     break;
                 case 2:
-                    timer = 90;
-                    break;
-                case 3:
-                    timer = 80;
-                    break;
-                case 4:
-                    timer = 70;
-                    break;
-                case 5:
-                    timer = 60;
-                    break;
-                case 6:
                     timer = 50;
                     break;
-                case 7:
+                case 3:
                     timer = 40;
                     break;
-                case 8:
+                case 4:
+                    timer = 35;
+                    break;
+                case 5:
                     timer = 30;
                     break;
-                case 9:
+                case 6:
+                    timer = 25;
+                    break;
+                case 7:
                     timer = 20;
+                    break;
+                case 8:
+                    timer = 15;
+                    break;
+                case 9:
+                    timer = 10;
                     break;
             }
             return timer;

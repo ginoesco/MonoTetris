@@ -280,8 +280,37 @@ namespace Tetris
             get { return rotatable; }
             set { rotatable = value; }
         }
+        public List<int[,]> Rotate(int currentShape)
+        {
+            switch (currentShape)
+            {
+                case 0:
+                    rotate = GetRotate_T();
+                    break;
+                case 1:
+                    rotate = GetRotate_Z();
+                    break;
+                case 2:
+                    rotate = GetRotate_S();
+                    break;
+                case 3:
+                    rotate = GetRotate_L();
+                    break;
+                case 4:
+                    rotate = GetRotate_J();
+                    break;
+                case 5:
+                    rotate = GetRotate_Sq();
+                    break;
+                case 6:
+                    rotate = GetRotate_Line();
+                    break;
+                default:
+                    break;
+            }
+            return rotate; 
+        }
 
 
- 
     }
 }
