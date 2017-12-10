@@ -23,8 +23,15 @@ namespace Tetris
 
         private KeyboardState oldKeyState;
         private KeyboardState currentKeyState;
+
+        //option menu
+        private SpriteFont optionFont;
+        private Texture2D backArrow, soundOn, soundOff;
+        //end of option menu
+
         //in game
         private Texture2D block, window, space;
+        Button arrow, textWindow, soundWindow;
         //end of ingame
 
         //game menu
@@ -129,19 +136,29 @@ namespace Tetris
             //game menu
             playGame = Content.Load<Texture2D>("PlayGame");
             options = Content.Load<Texture2D>("options");
+            backArrow = Content.Load<Texture2D>("arrow");
             background = Content.Load<Texture2D>("tetris_logo");
+            optionFont = Content.Load<SpriteFont>("tetrisFont");
+            soundOn = Content.Load<Texture2D>("sound_on");
+            soundOff = Content.Load<Texture2D>("sound_off");
 
-            optionButton = new Button(new Rectangle(400, 100, options.Width, options.Height), true);
+            //buttons and define their boundaries
+            optionButton = new Button(new Rectangle(600, 100, options.Width, options.Height), true);
             optionButton.load(Content, "options");
 
-            playGameButton = new Button(new Rectangle(200, 75, playGame.Width + 100, playGame.Height), true);
+            playGameButton = new Button(new Rectangle(200, 100, playGame.Width + 100, playGame.Height), true);
             playGameButton.load(Content, "PlayGame");
 
+            arrow = new Button(new Rectangle(25,900, 75,75), true);
+            arrow.load(Content, "arrow");
+
+            textWindow = new Button(new Rectangle(350,500, 290,50),true); //Responsible for quit game button
+            soundWindow = new Button(new Rectangle(500,900,350,50),true); //Responsible for mute/unmute
             //Music
             themeSong = Content.Load<Song>("Tetris");
             MediaPlayer.Volume = 0.1f;
             MediaPlayer.IsRepeating = true;
-            //MediaPlayer.Play(themeSong);
+            MediaPlayer.Play(themeSong);
         }
 
 
@@ -383,12 +400,57 @@ namespace Tetris
                     {//goto options screen
                         currentScreen = optionScreen;
                     }
+                    if (soundWindow.update(new Vector2(newMouseState.X, newMouseState.Y)) == true && newMouseState != lastMouseState && newMouseState.LeftButton == ButtonState.Pressed)
+                    {//Mute/unmute music
+                        if (MediaPlayer.State == MediaState.Paused)
+                        {
+                            MediaPlayer.Resume();
+                        }
+                        else if (MediaPlayer.State == MediaState.Playing)
+                        {
+                            MediaPlayer.Pause();
+                        }
+                    }
                     break;
+                case optionScreen:
+                    {
+                        if (arrow.update(new Vector2(newMouseState.X, newMouseState.Y)) == true && newMouseState != lastMouseState && newMouseState.LeftButton == ButtonState.Pressed)
+                        {//goto options screen
+                            currentScreen = menuScreen;
+                        }
+                        if (textWindow.update(new Vector2(newMouseState.X, newMouseState.Y)) == true && newMouseState != lastMouseState && newMouseState.LeftButton == ButtonState.Pressed)
+                        {//Escape game
+                            Exit();
+                        }
+                        if (soundWindow.update(new Vector2(newMouseState.X, newMouseState.Y)) == true && newMouseState != lastMouseState && newMouseState.LeftButton == ButtonState.Pressed)
+                        {//Mute/unmute music
+                            if (MediaPlayer.State == MediaState.Paused)
+                            {
+                                MediaPlayer.Resume();
+                            }
+                            else if (MediaPlayer.State == MediaState.Playing)
+                            {
+                                MediaPlayer.Pause();
+                            }
+                        }
+                        break;
+                    }
 
                 case game:
-                    if (currentKeyState != oldKeyState && currentKeyState.IsKeyDown(Keys.Escape))
+                    if (currentKeyState != oldKeyState && currentKeyState.IsKeyDown(Keys.Home))
                     {
-                        currentScreen = menuScreen;
+                        level++;
+                    }
+                    if (soundWindow.update(new Vector2(newMouseState.X, newMouseState.Y)) == true && newMouseState != lastMouseState && newMouseState.LeftButton == ButtonState.Pressed)
+                    {//mute/unmute music
+                        if (MediaPlayer.State == MediaState.Paused)
+                        {
+                            MediaPlayer.Resume();
+                        }
+                        else if (MediaPlayer.State == MediaState.Playing)
+                        {
+                            MediaPlayer.Pause();
+                        }
                     }
                     if (GameOver(loadedBoard))
                     {
@@ -481,16 +543,59 @@ namespace Tetris
             switch (currentScreen)
             {
                 case menuScreen:
+                    optionButton.Available = true;
+                    playGameButton.Available = true;
+                    arrow.Available = false;
+
                     spriteBatch.Begin();
                     spriteBatch.Draw(background, GraphicsDevice.Viewport.Bounds, Color.White);
+
+
                     if (playGameButton.update(new Vector2(newMouseState.X, newMouseState.Y)) == true) 
                     {//If mouse is in playbutton range, draw white box around it
                         spriteBatch.Draw(window, new Rectangle(199, 99, 302, 52), Color.White);
                     }
                     spriteBatch.Draw(playGame, new Rectangle(200, 100, 300, 50), Color.White);
+                    if (optionButton.update(new Vector2(newMouseState.X, newMouseState.Y)))
+                    {//If mouse is in option range, draw white box around it
+                        spriteBatch.Draw(window, new Rectangle(599, 99, options.Width+2, options.Height+2), Color.White);
+                    }
+
+                    if (soundWindow.update(new Vector2(newMouseState.X, newMouseState.Y)))
+                    {//If mouse is in mute/unmute, draw white box around it
+                        spriteBatch.Draw(window, new Rectangle(499, 899, 352, 52), Color.White);
+                    }
+                    spriteBatch.DrawString(optionFont, "Mute/Unmute", new Vector2(500, 900), Color.White);
                     spriteBatch.Draw(options, new Rectangle(600, 100, options.Width, options.Height), Color.White);
                     spriteBatch.End();
                     break;
+                case optionScreen:
+                    {
+                        optionButton.Available = false;
+                        playGameButton.Available = false;
+                        arrow.Available = true;
+
+                        spriteBatch.Begin();
+                        spriteBatch.Draw(window, GraphicsDevice.Viewport.Bounds, Color.DimGray);
+                        if (arrow.update(new Vector2(newMouseState.X, newMouseState.Y)))
+                        {//If mouse is in back arrow range, draw white box around it
+                            spriteBatch.Draw(window, new Rectangle(24, 899, 77, 77), Color.White);
+                        }
+                        spriteBatch.Draw(backArrow, new Rectangle(25, 900, 75, 75), Color.White);
+                        spriteBatch.DrawString(optionFont, "Load Game", new Vector2(350, 300), Color.White);
+
+                        if (textWindow.update(new Vector2(newMouseState.X, newMouseState.Y)))
+                        {//If mouse is in "quit game" range, draw gray box around it
+                            spriteBatch.Draw(window, new Rectangle(349, 501, 290, 50), Color.DarkGray);
+                        }
+                        if (soundWindow.update(new Vector2(newMouseState.X, newMouseState.Y)))
+                        {//If mouse is in mute/unmute, draw white box around it
+                            spriteBatch.Draw(window, new Rectangle(499, 899, 352, 52), Color.White);
+                        }
+                        spriteBatch.DrawString(optionFont, "Mute/Unmute", new Vector2(500, 900), Color.White);
+                        spriteBatch.End();
+                        break;
+                    }
 
                 case game:
                     GraphicsDevice.Clear(Color.Gray);
@@ -536,6 +641,11 @@ namespace Tetris
                     spriteBatch.DrawString(font, "Next Block", new Vector2(700, 400), Color.White);
                     spriteBatch.Draw(window, new Rectangle(700, 450, 200, 200), Color.Gray);
                     DrawShape(nextShape);
+                    if (soundWindow.update(new Vector2(newMouseState.X, newMouseState.Y)))
+                    {//If mouse is in mute/unmute, draw white box around it
+                        spriteBatch.Draw(window, new Rectangle(499, 899, 352, 52), Color.White);
+                    }
+                    spriteBatch.DrawString(optionFont, "Mute/Unmute", new Vector2(500, 900), Color.White);
                     spriteBatch.End();
 
                     break;
