@@ -15,10 +15,14 @@ namespace Tetris
         SpriteBatch spriteBatch;
         Shapes shapeObj = new Shapes();
         Shapes nextShapeObj = new Shapes();
-        static Random rnd = new Random(DateTime.Now.Millisecond);
+        //static Random rnd = new Random(DateTime.Now.Millisecond);
         GameBoard gbObj = new GameBoard();
         Vector2 tetrisBlock;
-        KeyboardInput keyIn = new KeyboardInput(); 
+        KeyboardInput keyIn = new KeyboardInput();
+        Levels levelobj = new Levels(); 
+
+        private KeyboardState oldKeyState;
+        private KeyboardState currentKeyState;
         //in game
         private Texture2D block, window, space;
         //end of ingame
@@ -32,13 +36,14 @@ namespace Tetris
         int currentScreen = menuScreen;
         //end of game menu
         private SpriteFont font;
-        private KeyboardState oldKeyState;
-        private KeyboardState currentKeyState;
+        //private KeyboardState oldKeyState;
+        //private KeyboardState currentKeyState;
 
         //game details
         private int score = 0;
         private int level = 0;
         private int linesCleared = 0;
+
         //end of game details
 
         //const int pixelWidth = 32;
@@ -53,18 +58,18 @@ namespace Tetris
         int[] xcoords = new int[4];
         int[] ycoords = new int[4];
 
-        //int posX = 330 + pixelWidth * 4;
-        //int posY = 200;
+        int posX = 330 + pixelWidth * 4;
+        int posY = 200;
         //int boundsX = boardX + pixelWidth * 8;
         //int boundsY = boardY + pixelWidth * 16;
-        int rotateIndex = 0;
-        int rnum = 0;
+        //int rotateIndex = 0;
+        //int rnum = 0;
         int count = 0; //used in timer
-        int currentShape = rnd.Next(1,7);
-        int nextShape= rnd.Next(1,7);
-        int moveLeftState = 0;
-        int moveRightState = 0;
-        int moveDownState = 0;
+        //int currentShape = rnd.Next(1,7);
+        //int nextShape= rnd.Next(1,7);
+        //int moveLeftState = 0;
+        //int moveRightState = 0;
+        //int moveDownState = 0;
 
         
         public TetrisGame()
@@ -142,45 +147,45 @@ namespace Tetris
         /// <summary>
         /// Based on lines cleared, change the level we are on. The higher the level we are on the faster the blocks will fall
         /// </summary>
-        public void CalculateLevel()
-        {
-            if (level ==9 || (linesCleared >=160))
-            {
-                level = 9;
-            }
-            else if (level == 8 || (linesCleared >= 140 && linesCleared < 160))
-            {
-                level = 8;
-            }
-            else if (level ==7 || (linesCleared >= 120 && linesCleared < 140))
-            {
-                level = 7;
-            }
-            else if (level ==6 ||(linesCleared >= 100 && linesCleared < 120))
-            {
-                level = 6;
-            }
-            else if (level ==5 ||(linesCleared >= 80 && linesCleared < 100))
-            {
-                level = 5;
-            }
-            else if (level ==4 ||(linesCleared >= 60 && linesCleared < 80))
-            {
-                level = 4;
-            }
-            else if (level == 3 ||(linesCleared >= 40 && linesCleared <= 60))
-            {
-                level = 3;
-            }
-            else if (level == 2|| (linesCleared >= 20 && linesCleared < 40))
-            {
-                level = 2;
-            }
-            else if ((linesCleared >= 0 && linesCleared < 20))
-            {
-                level = 1;
-            }
-        }
+        //public void CalculateLevel()
+        //{
+        //    if (level == 9 || (linesCleared >= 160))
+        //    {
+        //        level = 9;
+        //    }
+        //    else if (level == 8 || (linesCleared >= 140 && linesCleared < 160))
+        //    {
+        //        level = 8;
+        //    }
+        //    else if (level == 7 || (linesCleared >= 120 && linesCleared < 140))
+        //    {
+        //        level = 7;
+        //    }
+        //    else if (level == 6 || (linesCleared >= 100 && linesCleared < 120))
+        //    {
+        //        level = 6;
+        //    }
+        //    else if (level == 5 || (linesCleared >= 80 && linesCleared < 100))
+        //    {
+        //        level = 5;
+        //    }
+        //    else if (level == 4 || (linesCleared >= 60 && linesCleared < 80))
+        //    {
+        //        level = 4;
+        //    }
+        //    else if (level == 3 || (linesCleared >= 40 && linesCleared <= 60))
+        //    {
+        //        level = 3;
+        //    }
+        //    else if (level == 2 || (linesCleared >= 20 && linesCleared < 40))
+        //    {
+        //        level = 2;
+        //    }
+        //    else if ((linesCleared >= 0 && linesCleared < 20))
+        //    {
+        //        level = 1;
+        //    }
+        //}
 
         /// <summary>
         /// Used to detect when the game is over
@@ -210,7 +215,7 @@ namespace Tetris
             int timer=0;
             switch (level)
             {
-                case 1: timer = 100;
+                case 1: timer = 60;
                         break;
                 case 2: timer = 90;
                         break;
@@ -247,6 +252,7 @@ namespace Tetris
                 }
                 count++;
             }
+            
         }
 
         /// <summary>
@@ -308,7 +314,7 @@ namespace Tetris
             if (oldKeyState.IsKeyDown(Keys.Up) && currentKeyState.IsKeyUp(Keys.Up) && blockstate != 1)
             { //updates when up is pressed
                 Rotate(currentShape);
-                Console.WriteLine("CurrentShape, RotateLength: {0}, {1}", currentShape, rotate.Count); 
+                Console.WriteLine("CurrentShape, RotateLength: {0}, {1}", currentShape, rotate.Count);
 
                 if ((currentShape == 6 || currentShape == 3 || currentShape == 4) && (moveLeftState >= 362 && moveRightState <= boundsX))
                 {
@@ -356,7 +362,7 @@ namespace Tetris
             }
             else if (oldKeyState.IsKeyDown(Keys.Down) && currentKeyState.IsKeyUp(Keys.Down))
             {
-                //if (moveDownState <= boundsY)
+               if (moveDownState <= boundsY)
                 posY += pixelWidth;
             }
             else if (oldKeyState.IsKeyDown(Keys.Enter) && currentKeyState.IsKeyUp(Keys.Enter))
@@ -385,7 +391,8 @@ namespace Tetris
         int blockstate = -1;
         protected override void Update(GameTime gameTime)
         {
-            DeleteLines(loadedBoard);
+            int oldLines = linesCleared; 
+            linesCleared = gbObj.DeleteLines(loadedBoard,linesCleared);
 
             oldKeyState = currentKeyState;
             currentKeyState = Keyboard.GetState();
@@ -410,11 +417,10 @@ namespace Tetris
             //Checks for what keys are pressed, Moves or rotates block
             if (blockstate != blocked || (oldKeyState.IsKeyDown(Keys.Enter) && currentKeyState.IsKeyUp(Keys.Enter)))
             {
-                
-                Console.WriteLine("Elapsed time: {0}", gameTime.ElapsedGameTime.Seconds);
                 MoveKeys();
+                Console.WriteLine("Elapsed time: {0}, {1}", posX, posY);
             }
-  
+
             if (blockstate == blocked)
             {
                 //DeleteLines(loadedBoard);
@@ -454,10 +460,12 @@ namespace Tetris
                     {
                         currentScreen = menuScreen;
                     }
-                    Fall(calculateTimer(level));
+                    Fall(levelobj.CalculateTimer(level));
                     break;
             }
-            DeleteLines(loadedBoard);
+            linesCleared = gbObj.DeleteLines(loadedBoard,linesCleared);
+            level = levelobj.CalculateLevel(level, linesCleared);
+            score = levelobj.CalculateScore(oldLines,linesCleared,level,score);
             base.Update(gameTime);
         }
 
@@ -530,57 +538,57 @@ namespace Tetris
 
         }
 
-        public void DeleteLines(int[,] gameArray)
-        {
-            int oldLines = linesCleared;
-            for (int y =17; y>=0; y--) //Traversing the row
-            {
-                bool clear = true;
-                for (int x =0; x<10; x++) //Traversing the columns
-                {
-                    if (gameArray[x,y] == 0)
-                    {
-                        clear = false;
-                    }
-                }
-                if (clear)
-                {
-                    for (int otherY = y; otherY >= 1; otherY--)
-                    {
-                        for (int x = 0; x < 10; x++)
-                        {
-                            gameArray[x, otherY] = gameArray[x, otherY - 1];
-                        }
-                    }
-                    linesCleared++;
-                    y++;
-                }
-            }
-            CalculateScore(oldLines, linesCleared);
-            CalculateLevel();
-        }
+        //public void DeleteLines(int[,] gameArray)
+        //{
+        //    int oldLines = linesCleared;
+        //    for (int y =17; y>=0; y--) //Traversing the row
+        //    {
+        //        bool clear = true;
+        //        for (int x =0; x<10; x++) //Traversing the columns
+        //        {
+        //            if (gameArray[x,y] == 0)
+        //            {
+        //                clear = false;
+        //            }
+        //        }
+        //        if (clear)
+        //        {
+        //            for (int otherY = y; otherY >= 1; otherY--)
+        //            {
+        //                for (int x = 0; x < 10; x++)
+        //                {
+        //                    gameArray[x, otherY] = gameArray[x, otherY - 1];
+        //                }
+        //            }
+        //            linesCleared++;
+        //            y++;
+        //        }
+        //    }
+        //    //CalculateScore(oldLines, linesCleared);
+        //    //CalculateLevel(); 
+        //}
 
         /// <summary>
         /// Function used to calculate the score of the current game. As the user advances to a higher level, there is a multiplication factor
         /// </summary>
         /// <param name="oldLines"></param>
         /// <param name="newLines"></param>
-        public void CalculateScore(int oldLines, int newLines)
-        {
-            switch (newLines - oldLines)
-            {
-                case 0: score += 0;
-                        break;
-                case 1: score += 40*(level+1);
-                        break;
-                case 2: score += 100* (level + 1);
-                        break;
-                case 3: score += 300* (level + 1);
-                        break;
-                case 4: score += 1200* (level + 1);
-                        break;
-            }
-        }
+        //public void CalculateScore(int oldLines, int newLines)
+        //{
+        //    switch (newLines - oldLines)
+        //    {
+        //        case 0: score += 0;
+        //                break;
+        //        case 1: score += 40*(level+1);
+        //                break;
+        //        case 2: score += 100* (level + 1);
+        //                break;
+        //        case 3: score += 300* (level + 1);
+        //                break;
+        //        case 4: score += 1200* (level + 1);
+        //                break;
+        //    }
+        //}
 
         /// <summary>
         /// This is called when the game should draw itself.

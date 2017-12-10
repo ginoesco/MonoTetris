@@ -10,6 +10,7 @@ namespace Tetris
 {
     public class GameBoard : Shapes
     {
+
         List<int[,]> TetrisBoardList = new List<int[,]>();
        // const int pixelWidth = 32;
         //const int pixelLength = 32; 
@@ -17,8 +18,12 @@ namespace Tetris
         protected const int BoardHeight = 200;
         protected const int boundsX = BoardWidth+pixelWidth*9;
         protected const int boundsY = BoardHeight + pixelWidth * 17;
-        protected int posX = 330 + pixelWidth * 4;
-        protected int posY = 200;
+        //protected int posX = 330 + pixelWidth * 4;
+        //protected int posY = 200;
+
+        protected int moveLeftState = 0;
+        protected int moveRightState = 0;
+        protected int moveDownState = 0;
 
         protected int[,] gameBoard = new int[10, 18]; // 10x 18 board
         protected int[,] loadedBoard = new int[10, 18];
@@ -39,22 +44,16 @@ namespace Tetris
 
         public BlockStates CheckPlacement(int[,] gameboard, int[,] block, int x, int y)
         {
-            int blockDim = block.GetLength(0);
-            // Console.WriteLine("X,Y: {0},{1}", x, y); 
-         
+            int blockDim = block.GetLength(0);         
             int px, py; 
             for (px = 0; px < blockDim; px++)
             {
                 for (py = 0; py < blockDim; py++)
                 {
-                    //int boardX = px*pixelWidth + x;     //+x
-                    //int boardY = py*pixelLength + y;   //+y
-
                     int boardX = x;
                     int boardY = y; 
-                    // Console.WriteLine("boardY {0}, boundsY {1}, py {2}", boardY, boundsY,py);
-                    //Check if space is empty
 
+                    //Check if space is empty
                     if (block[py, px] != 0)
                     {
                         if (boardX < BoardWidth || boardX > boundsX)
@@ -69,7 +68,7 @@ namespace Tetris
                                 {
                                     int pos_x = 330 + j * pixelWidth;
                                     int pos_y = 200 + k * pixelLength;
-                                    //Console.WriteLine("posx: {0}, posy: {1}", posX, posY); 
+
                                     if (pos_x == x && pos_y == y)
                                     {
                                         int row = k + 1; //row below
@@ -162,6 +161,37 @@ namespace Tetris
                     }
                 }
             }
+        }
+
+        public int DeleteLines(int[,] gameArray, int linesCleared)
+        {
+            int oldLines = linesCleared;
+            for (int y = 17; y >= 0; y--) //Traversing the row
+            {
+                bool clear = true;
+                for (int x = 0; x < 10; x++) //Traversing the columns
+                {
+                    if (gameArray[x, y] == 0)
+                    {
+                        clear = false;
+                    }
+                }
+                if (clear)
+                {
+                    for (int otherY = y; otherY >= 1; otherY--)
+                    {
+                        for (int x = 0; x < 10; x++)
+                        {
+                            gameArray[x, otherY] = gameArray[x, otherY - 1];
+                        }
+                    }
+                    linesCleared++;
+                    y++;
+                }
+            }
+            return linesCleared;
+            //CalculateScore(oldLines, linesCleared);
+            //CalculateLevel(); 
         }
         public List<int[,]> GetGameBoard()
         {

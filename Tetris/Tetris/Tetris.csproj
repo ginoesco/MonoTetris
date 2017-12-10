@@ -45,6 +45,7 @@
     <Compile Include="Button.cs" />
     <Compile Include="GameBoard.cs" />
     <Compile Include="KeyboardInput.cs" />
+    <Compile Include="Levels.cs" />
     <Compile Include="Sprites.cs" />
     <Compile Include="TetrisGame.cs" />
     <Compile Include="Program.cs" />
