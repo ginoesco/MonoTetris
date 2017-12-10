@@ -41,8 +41,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Block.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="GameBoard.cs" />
+    <Compile Include="KeyboardInput.cs" />
     <Compile Include="Sprites.cs" />
     <Compile Include="TetrisGame.cs" />
     <Compile Include="Program.cs" />

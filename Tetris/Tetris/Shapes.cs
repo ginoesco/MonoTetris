@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Tetris
 {
-    class Shapes
+    public class Shapes : Block
     {
         List<int[,]> ShapeList = new List<int[,]>();
         List<int[,]> RotateList_T = new List<int[,]>();
@@ -20,12 +20,16 @@ namespace Tetris
         List<int[,]> RotateList_Line = new List<int[,]>();
         List<int[,]> RotateList_Sq = new List<int[,]>();
 
+        protected List<int[,]> rotate = new List<int[,]>();
         private bool rotatable = false;
        
 
         List<Color> ColorList = new List<Color>();
-        const int pixelWidth = 31;
-        const int pixelLength = 32;
+
+
+        protected int[,] shape = new int[4, 4];
+        protected int[,] shape2 = new int[4, 4];
+        protected int[,] rotated = new int[4, 4];
 
         public Shapes()
         {
@@ -272,5 +276,34 @@ namespace Tetris
             set { rotatable = value; }
         }
 
+        public void Rotate(int currentShape)
+        {
+            switch (currentShape)
+            {
+                case 0:
+                    rotate = GetRotate_T();
+                    break;
+                case 1:
+                    rotate = GetRotate_Z();
+                    break;
+                case 2:
+                    rotate = GetRotate_S();
+                    break;
+                case 3:
+                    rotate = GetRotate_L();
+                    break;
+                case 4:
+                    rotate = GetRotate_J();
+                    break;
+                case 5:
+                    rotate = GetRotate_Sq();
+                    break;
+                case 6:
+                    rotate = GetRotate_Line();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
