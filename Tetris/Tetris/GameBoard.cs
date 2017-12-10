@@ -8,15 +8,20 @@ using System.Threading.Tasks;
 
 namespace Tetris
 {
-    class GameBoard
+    public class GameBoard : Shapes
     {
         List<int[,]> TetrisBoardList = new List<int[,]>();
-        const int pixelWidth = 32;
-        const int pixelLength = 32; 
-        const int BoardWidth = 330;   //X,Y  position of the gameboard in the window
-        const int BoardHeight = 200;
-        const int boundsX = BoardWidth+pixelWidth*9;
-        const int boundsY = BoardHeight + pixelWidth * 17;
+       // const int pixelWidth = 32;
+        //const int pixelLength = 32; 
+        protected const int BoardWidth = 330;   //X,Y  position of the gameboard in the window
+        protected const int BoardHeight = 200;
+        protected const int boundsX = BoardWidth+pixelWidth*9;
+        protected const int boundsY = BoardHeight + pixelWidth * 17;
+        protected int posX = 330 + pixelWidth * 4;
+        protected int posY = 200;
+
+        protected int[,] gameBoard = new int[10, 18]; // 10x 18 board
+        protected int[,] loadedBoard = new int[10, 18];
         Shapes shapeObj = new Shapes(); 
         public GameBoard()
         {
@@ -62,10 +67,10 @@ namespace Tetris
                             {
                                 for(int j = 0; j<gameboard.GetLength(0); j++)
                                 {
-                                    int posX = 330 + j * pixelWidth;
-                                    int posY = 200 + k * pixelLength;
+                                    int pos_x = 330 + j * pixelWidth;
+                                    int pos_y = 200 + k * pixelLength;
                                     //Console.WriteLine("posx: {0}, posy: {1}", posX, posY); 
-                                    if (posX == x && posY == y)
+                                    if (pos_x == x && pos_y == y)
                                     {
                                         int row = k + 1; //row below
                                         int col = j + 1; //looks ahead col right

@@ -9,7 +9,7 @@ namespace Tetris
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class TetrisGame : Game
+    public class TetrisGame : GameBoard
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -18,8 +18,7 @@ namespace Tetris
         static Random rnd = new Random(DateTime.Now.Millisecond);
         GameBoard gbObj = new GameBoard();
         Vector2 tetrisBlock;
-        List<int[,]> rotate = new List<int[,]>();
-
+        KeyboardInput keyIn = new KeyboardInput(); 
         //in game
         private Texture2D block, window, space;
         //end of ingame
@@ -42,25 +41,22 @@ namespace Tetris
         private int linesCleared = 0;
         //end of game details
 
-        const int pixelWidth = 32;
-        const int pixelLength = 32;
-        const int boardX = 330;
-        const int boardY = 200;
-        const int size = 32;
-        int[,] shape = new int[4, 4];
-        int[,] shape2 = new int[4, 4];
-        int[,] rotated = new int[4, 4];
-        int[,] gameBoard = new int[10, 18]; // 10x 18 board
-        int[,] loadedBoard = new int[10, 18];
+        //const int pixelWidth = 32;
+        //const int pixelLength = 32;
+        //const int boardX = 330;
+        //const int boardY = 200;
+        //int[,] shape = new int[4, 4];
+        //int[,] shape2 = new int[4, 4];
+        //int[,] rotated = new int[4, 4];
+        //int[,] gameBoard = new int[10, 18]; // 10x 18 board
+        //int[,] loadedBoard = new int[10, 18];
         int[] xcoords = new int[4];
         int[] ycoords = new int[4];
 
-        int posX = 330 + pixelWidth * 4;
-        int posY = 200;
-
-
-        int boundsX = boardX + pixelWidth * 8;
-        int boundsY = boardY + pixelWidth * 16;
+        //int posX = 330 + pixelWidth * 4;
+        //int posY = 200;
+        //int boundsX = boardX + pixelWidth * 8;
+        //int boundsY = boardY + pixelWidth * 16;
         int rotateIndex = 0;
         int rnum = 0;
         int count = 0; //used in timer
@@ -70,7 +66,7 @@ namespace Tetris
         int moveRightState = 0;
         int moveDownState = 0;
 
-        //
+        
         public TetrisGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -308,10 +304,11 @@ namespace Tetris
             int blockstate = (int)gbObj.CheckPlacement(loadedBoard, shape, posX, posY);
 
             // Console.WriteLine("blockstate: {0}, {1}", moveLeftState, moveRightState);
-            int rightWall = boundsX + pixelWidth * 9;
+            //int rightWall = boundsX + pixelWidth * 9;
             if (oldKeyState.IsKeyDown(Keys.Up) && currentKeyState.IsKeyUp(Keys.Up) && blockstate != 1)
             { //updates when up is pressed
                 Rotate(currentShape);
+                Console.WriteLine("CurrentShape, RotateLength: {0}, {1}", currentShape, rotate.Count); 
 
                 if ((currentShape == 6 || currentShape == 3 || currentShape == 4) && (moveLeftState >= 362 && moveRightState <= boundsX))
                 {
@@ -340,7 +337,6 @@ namespace Tetris
                 // moveLeftState = blockstate;
                 if (moveLeftState >= 362)
                 {
-                    Console.WriteLine("moveLeft: {0}", moveLeftState);
                     posX -= pixelWidth;
                 }
 
@@ -352,10 +348,8 @@ namespace Tetris
                 //int blockstate = (int)gbObj.CheckPlacement(gameBoard, shape, (int)tetrisBlock.X, (int)tetrisBlock.Y);
                 //moveRightState = blockstate;
 
-                if (moveRightState <= boundsX)
+                if (moveRightState < boundsX)
                 {
-                    Console.WriteLine("moveRight: {0}", moveRightState);
-
                     posX += pixelWidth;
                 }
 
@@ -389,7 +383,6 @@ namespace Tetris
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         int j = 0;
         int blockstate = -1;
-
         protected override void Update(GameTime gameTime)
         {
             DeleteLines(loadedBoard);
@@ -416,9 +409,12 @@ namespace Tetris
 
             //Checks for what keys are pressed, Moves or rotates block
             if (blockstate != blocked || (oldKeyState.IsKeyDown(Keys.Enter) && currentKeyState.IsKeyUp(Keys.Enter)))
+            {
+                
+                Console.WriteLine("Elapsed time: {0}", gameTime.ElapsedGameTime.Seconds);
                 MoveKeys();
-            Console.WriteLine("blockstate: {0}", blockstate);
-            //Console.WriteLine("posX, posY: {0}, {1}", posX, posY);
+            }
+  
             if (blockstate == blocked)
             {
                 //DeleteLines(loadedBoard);
@@ -624,7 +620,7 @@ namespace Tetris
                             {
 
                                 boardColor = Color.FromNonPremultiplied(50, 50, 50, 50);
-                                spriteBatch.Draw(block, new Rectangle(boardX + i * size, boardY + j * size, size, size), new Rectangle(0, 0, 32, 32), Color.DarkGray);
+                                spriteBatch.Draw(block, new Rectangle(BoardWidth + i * pixelWidth, BoardHeight + j * pixelWidth, pixelWidth, pixelWidth), new Rectangle(0, 0, 32, 32), Color.DarkGray);
                             }
                         }
                     }
