@@ -48,12 +48,16 @@ namespace Tetris
             {
                 level = 1;
             }
+            else
+            {
+                level = 9;
+            }
             return level; 
         }
 
         public int CalculateTimer(int level)
         {
-            int timer = 0;
+            int timer;
             switch (level)
             {
                 case 1:
@@ -82,6 +86,8 @@ namespace Tetris
                     break;
                 case 9:
                     timer = 10;
+                    break;
+                default: timer = 10;
                     break;
             }
             return timer;

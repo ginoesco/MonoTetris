@@ -153,3 +153,10 @@
 /processorParam:TextureFormat=Color
 /build:sound_on.png
 
+#begin EnlargedFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:EnlargedFont.spritefont
+
