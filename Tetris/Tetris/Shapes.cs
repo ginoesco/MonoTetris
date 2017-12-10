@@ -22,7 +22,8 @@ namespace Tetris
 
         protected List<int[,]> rotate = new List<int[,]>();
         private bool rotatable = false;
-       
+        protected static Random rnd = new Random(DateTime.Now.Millisecond);
+
 
         List<Color> ColorList = new List<Color>();
 
@@ -30,6 +31,10 @@ namespace Tetris
         protected int[,] shape = new int[4, 4];
         protected int[,] shape2 = new int[4, 4];
         protected int[,] rotated = new int[4, 4];
+        protected int rotateIndex = 0;
+        protected int rnum = 0;
+        protected int currentShape = rnd.Next(1, 7);
+        protected int nextShape = rnd.Next(1, 7);
 
         public Shapes()
         {
@@ -276,34 +281,7 @@ namespace Tetris
             set { rotatable = value; }
         }
 
-        public void Rotate(int currentShape)
-        {
-            switch (currentShape)
-            {
-                case 0:
-                    rotate = GetRotate_T();
-                    break;
-                case 1:
-                    rotate = GetRotate_Z();
-                    break;
-                case 2:
-                    rotate = GetRotate_S();
-                    break;
-                case 3:
-                    rotate = GetRotate_L();
-                    break;
-                case 4:
-                    rotate = GetRotate_J();
-                    break;
-                case 5:
-                    rotate = GetRotate_Sq();
-                    break;
-                case 6:
-                    rotate = GetRotate_Line();
-                    break;
-                default:
-                    break;
-            }
-        }
+
+ 
     }
 }
