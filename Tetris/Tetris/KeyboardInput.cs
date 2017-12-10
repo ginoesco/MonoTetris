@@ -14,14 +14,47 @@ namespace Tetris
         //protected KeyboardState currentKeyState;
         GameBoard gbobj = new GameBoard();
         Shapes shapeobj = new Shapes();
-        public void KeyboardTimer(int timer)
+        int keyboardTick = 0; 
+        public bool KeyboardTimer(int timer)
         {
-            for (int i = timer; i > 0; i--)
+            if(keyboardTick == timer )
             {
+                keyboardTick = 0;
+                return true; 
+            }
+            keyboardTick++;
+            return false;     
+        }
+        public int[,] KeyUp(KeyboardState oldKeyState, KeyboardState currentKeyState,int blockState,int currentShape, int rotateIndex)
+        {
+            if (oldKeyState.IsKeyDown(Keys.Up) && blockState != 1)
+            { //updates when up is pressed
+                List<int[,]> rotate = shapeobj.Rotate(currentShape);
+                Console.WriteLine("CurrentShape, RotateLength: {0}, {1}", currentShape, rotate.Count);
+
+                if ((currentShape == 6 || currentShape == 3 || currentShape == 4) && (moveLeftState >= 362 && moveRightState <= boundsX))
+                {
+                    if (rotateIndex < 4)
+                        Array.Copy(rotate[rotateIndex++], shape, shape.Length);
+                    else
+                       rotateIndex = 0;
+                }
+                else if (currentShape != 6 && currentShape != 4 && currentShape != 3)
+                {
+                    if (rotateIndex < 4)
+                    {
+                        Array.Copy(rotate[rotateIndex++], shape, shape.Length);
+
+                    }
+                    else
+                    {
+                        rotateIndex = 0;
+                    }
+                }
 
             }
+            return shape;
         }
-
         public void MoveKeys(KeyboardState oldKeyState, KeyboardState currentKeyState, int posX, int posY)
         {
             int blockstate = (int)gbobj.CheckPlacement(loadedBoard, shape, posX, posY);
