@@ -210,32 +210,32 @@ namespace Tetris
         /// </summary>
         /// <param name="level"></param>
         /// <returns></returns>
-        private int calculateTimer(int level)
-        {
-            int timer=0;
-            switch (level)
-            {
-                case 1: timer = 60;
-                        break;
-                case 2: timer = 90;
-                        break;
-                case 3: timer = 80;
-                        break;
-                case 4: timer = 70;
-                        break;
-                case 5: timer = 60;
-                        break;
-                case 6: timer = 50;
-                        break;
-                case 7: timer = 40;
-                        break;
-                case 8: timer = 30;
-                        break;
-                case 9: timer = 20;
-                        break;
-            }
-            return timer; 
-        }
+        //private int calculateTimer(int level)
+        //{
+        //    int timer=0;
+        //    switch (level)
+        //    {
+        //        case 1: timer = 60;
+        //                break;
+        //        case 2: timer = 90;
+        //                break;
+        //        case 3: timer = 80;
+        //                break;
+        //        case 4: timer = 70;
+        //                break;
+        //        case 5: timer = 60;
+        //                break;
+        //        case 6: timer = 50;
+        //                break;
+        //        case 7: timer = 40;
+        //                break;
+        //        case 8: timer = 30;
+        //                break;
+        //        case 9: timer = 20;
+        //                break;
+        //    }
+        //    return timer; 
+        //}
 
         /// <summary>
         /// To make the blocks fall down at a certain speed defined by the parameter
@@ -469,7 +469,7 @@ namespace Tetris
             base.Update(gameTime);
         }
 
-        public void drawShape(bool whichShape)
+        public void DrawShape(bool whichShape)
         {
             List<int[,]> shapeList = shapeObj.GetShapeList();
             List<int[,]> nextShapeList = nextShapeObj.GetShapeList();
@@ -638,7 +638,7 @@ namespace Tetris
 
                     //Drawing the shape to go onto the board
                     spriteBatch.Begin();
-                    drawShape(boardShape);
+                    DrawShape(boardShape);
                     spriteBatch.End();
 
 
@@ -653,7 +653,7 @@ namespace Tetris
                     spriteBatch.Begin();
                     spriteBatch.DrawString(font, "Next Block", new Vector2(700, 400), Color.White);
                     spriteBatch.Draw(window, new Rectangle(700, 450, 200, 200), Color.Gray);
-                    drawShape(nextShape);
+                    DrawShape(nextShape);
                     spriteBatch.End();
 
                     break;
