@@ -23,8 +23,15 @@ namespace Tetris
 
         private KeyboardState oldKeyState;
         private KeyboardState currentKeyState;
+
+        //option menu
+        private SpriteFont optionFont;
+        private Texture2D backArrow;
+        //end of option menu
+
         //in game
         private Texture2D block, window, space;
+        Button arrow;
         //end of ingame
 
         //game menu
@@ -129,13 +136,21 @@ namespace Tetris
             //game menu
             playGame = Content.Load<Texture2D>("PlayGame");
             options = Content.Load<Texture2D>("options");
+            backArrow = Content.Load<Texture2D>("arrow");
             background = Content.Load<Texture2D>("tetris_logo");
+            optionFont = Content.Load<SpriteFont>("tetrisFont");
 
-            optionButton = new Button(new Rectangle(400, 100, options.Width, options.Height), true);
+            //buttons and define their boundaries
+            optionButton = new Button(new Rectangle(600, 100, options.Width, options.Height), true);
             optionButton.load(Content, "options");
 
-            playGameButton = new Button(new Rectangle(200, 75, playGame.Width + 100, playGame.Height), true);
+            playGameButton = new Button(new Rectangle(200, 100, playGame.Width + 100, playGame.Height), true);
             playGameButton.load(Content, "PlayGame");
+
+            arrow = new Button(new Rectangle(25,900, 75,75), true);
+            arrow.load(Content, "arrow");
+            //arrow = new Button();
+
 
             //Music
             themeSong = Content.Load<Song>("Tetris");
@@ -384,11 +399,23 @@ namespace Tetris
                         currentScreen = optionScreen;
                     }
                     break;
+                case optionScreen:
+                    {
+                        if (arrow.update(new Vector2(newMouseState.X, newMouseState.Y)) == true && newMouseState != lastMouseState && newMouseState.LeftButton == ButtonState.Pressed)
+                        {//goto options screen
+                            currentScreen = menuScreen;
+                        }
+                        break;
+                    }
 
                 case game:
                     if (currentKeyState != oldKeyState && currentKeyState.IsKeyDown(Keys.Escape))
                     {
                         currentScreen = menuScreen;
+                    }
+                    if (currentKeyState != oldKeyState && currentKeyState.IsKeyDown(Keys.Home))
+                    {
+                        level++;
                     }
                     if (GameOver(loadedBoard))
                     {
@@ -481,6 +508,9 @@ namespace Tetris
             switch (currentScreen)
             {
                 case menuScreen:
+                    optionButton.Available = true;
+                    playGameButton.Available = true;
+                    arrow.Available = false;
                     spriteBatch.Begin();
                     spriteBatch.Draw(background, GraphicsDevice.Viewport.Bounds, Color.White);
                     if (playGameButton.update(new Vector2(newMouseState.X, newMouseState.Y)) == true) 
@@ -488,9 +518,28 @@ namespace Tetris
                         spriteBatch.Draw(window, new Rectangle(199, 99, 302, 52), Color.White);
                     }
                     spriteBatch.Draw(playGame, new Rectangle(200, 100, 300, 50), Color.White);
+                    if (optionButton.update(new Vector2(newMouseState.X, newMouseState.Y)))
+                    {//If mouse is in option range, draw white box around it
+                        spriteBatch.Draw(window, new Rectangle(599, 99, options.Width+2, options.Height+2), Color.White);
+                    }
                     spriteBatch.Draw(options, new Rectangle(600, 100, options.Width, options.Height), Color.White);
                     spriteBatch.End();
                     break;
+                case optionScreen:
+                    {
+                        optionButton.Available = false;
+                        playGameButton.Available = false;
+                        arrow.Available = true;
+                        spriteBatch.Begin();
+                        spriteBatch.Draw(window, GraphicsDevice.Viewport.Bounds, Color.DimGray);
+                        if (arrow.update(new Vector2(newMouseState.X, newMouseState.Y)))
+                        {//If mouse is in back arrow range, draw white gray around it
+                            spriteBatch.Draw(window, new Rectangle(24, 899, 77, 77), Color.White);
+                        }
+                        spriteBatch.Draw(backArrow, new Rectangle(25, 900, 75, 75), Color.White);
+                        spriteBatch.End();
+                        break;
+                    }
 
                 case game:
                     GraphicsDevice.Clear(Color.Gray);
