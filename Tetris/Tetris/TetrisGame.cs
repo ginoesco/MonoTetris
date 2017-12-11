@@ -229,7 +229,6 @@ namespace Tetris
             { //updates when up is pressed
                 List<int[,]> rotate = shapeObj.Rotate(currentShape);
 
-                Console.WriteLine("CurrentShape, RotateLength: {0}, {1}", currentShape, rotate.Count);
 
                 if ((currentShape == 6 || currentShape == 3 || currentShape == 4) && (moveLeftState >= 362 && moveRightState <= boundsX))
                 {
@@ -325,8 +324,6 @@ namespace Tetris
 
             int blocked = (int)GameBoard.BlockStates.Blocked;
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
             if (j < 4 && blockstate != blocked)
             {
                 blockstate = (int)gbObj.CheckPlacement(loadedBoard, shape, xcoords[j], ycoords[j]);
@@ -484,6 +481,8 @@ namespace Tetris
                         break;
                     }
                 case game:
+                    Fall(levelobj.CalculateTimer(level));
+                    Console.WriteLine("Timer: {0}", levelobj.CalculateTimer(level));
 
                     if (currentKeyState != oldKeyState && currentKeyState.IsKeyDown(Keys.Home))
                     { //When user presses home key, increment level
@@ -503,6 +502,8 @@ namespace Tetris
                     if ((pauseButton.update(new Vector2(newMouseState.X, newMouseState.Y)) == true && newMouseState != lastMouseState && newMouseState.LeftButton == ButtonState.Pressed)
                             || (currentKeyState.IsKeyDown(Keys.LeftControl) && currentKeyState.IsKeyDown(Keys.P)))
                     {//Either user presses the pause button or user press left control+P to go to pause screen
+                            || (currentKeyState.IsKeyDown(Keys.LeftControl) && currentKeyState.IsKeyDown(Keys.P)) || (currentKeyState.IsKeyDown(Keys.Escape) && currentKeyState.IsKeyDown(Keys.Escape)))
+                    {
                         currentScreen = pauseScreen;
                     }
                     if (GameOver(loadedBoard)) //If game is over, go to game over screen
