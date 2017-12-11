@@ -10,8 +10,13 @@ namespace Tetris
 {
     public class SaveLoad
     {
+        //File path and name of the saved game
         string path = @"SavedGame.txt";
-
+        /// <summary>
+        /// Saves the gameboard using json serializer. Serializes the array
+        /// and stores to file. Allows user to save and quit. 
+        /// </summary>
+        /// <param name="gameboard"></param>
         public void Save(int[,] gameboard)
         {
             JsonSerializer serializer = new JsonSerializer();
@@ -35,7 +40,11 @@ namespace Tetris
                 }
             }
         }
-
+        /// <summary>
+        /// Loads the previously saved game by checking for the save file using 
+        /// json deserializer. 
+        /// </summary>
+        /// <returns></returns>
         public int[,] Load()
         {
             int[,] deserial = JsonConvert.DeserializeObject<int[,]>(File.ReadAllText(path));
