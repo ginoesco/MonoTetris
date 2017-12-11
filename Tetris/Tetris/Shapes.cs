@@ -19,6 +19,7 @@ namespace Tetris
     /// </summary>
     public class Shapes : Block
     {
+        //Shape and Rotate lists
         List<int[,]> ShapeList = new List<int[,]>();
         List<int[,]> RotateList_T = new List<int[,]>();
         List<int[,]> RotateList_Z = new List<int[,]>();
@@ -28,12 +29,14 @@ namespace Tetris
         List<int[,]> RotateList_Line = new List<int[,]>();
         List<int[,]> RotateList_Sq = new List<int[,]>();
 
+        //List of colors to be used for tetris blocks
+        List<Color> ColorList = new List<Color>();
+
         protected List<int[,]> rotate = new List<int[,]>();
         private bool rotatable = false;
         protected static Random rnd = new Random(DateTime.Now.Millisecond);
 
 
-        List<Color> ColorList = new List<Color>();
 
 
         protected int[,] shape = new int[4, 4];
@@ -46,6 +49,7 @@ namespace Tetris
 
         public Shapes()
         {
+            //Add colors to color list
             ColorList.Add(Color.DarkOrange);
             ColorList.Add(Color.Cyan);
             ColorList.Add(Color.Yellow);
@@ -239,22 +243,34 @@ namespace Tetris
 
         }
 
-     
+        /// <summary>
+        /// Gets ShapeList 
+        /// </summary>
+        /// <returns></returns>
         public List<int[,]> GetShapeList()
         {
             return ShapeList;
         }
-
+        /// <summary>
+        /// Gets Color list
+        /// </summary>
+        /// <returns></returns>
         public List<Color> GetColorList()
         {
             return ColorList;
         }
-
+        /// <summary>
+        /// Gets Rotate List for shape T
+        /// </summary>
+        /// <returns></returns>
         public List<int[,]> GetRotate_T()
         {
             return RotateList_T; 
         }
-
+        /// <summary>
+        /// Gets rotate list for Z
+        /// </summary>
+        /// <returns></returns>
         public List<int[,]> GetRotate_Z()
         {
             return RotateList_Z;
@@ -263,31 +279,51 @@ namespace Tetris
         {
             return RotateList_S;
         }
-
+        /// <summary>
+        /// Gets rotate list for L 
+        /// </summary>
+        /// <returns></returns>
         public List<int[,]> GetRotate_L()
         {
             return RotateList_L;
         }
+        /// <summary>
+        /// Gets rotate list for J
+        /// </summary>
+        /// <returns></returns>
         public List<int[,]> GetRotate_J()
         {
             return RotateList_J;
         }
-
+        /// <summary>
+        /// Gets rotate list for line
+        /// </summary>
+        /// <returns></returns>
         public List<int[,]> GetRotate_Line()
         {
             return RotateList_Line;
         }
-
+        /// <summary>
+        /// Gets rotate list for square
+        /// </summary>
+        /// <returns></returns>
         public List<int[,]> GetRotate_Sq()
         {
             return RotateList_Sq;
         }
-
+        /// <summary>
+        /// Checks if a shape is rotatable 
+        /// </summary>
         public bool Rotatable
         {
             get { return rotatable; }
             set { rotatable = value; }
         }
+        /// <summary>
+        /// Returns the corresponding rotate list for the current shape 
+        /// </summary>
+        /// <param name="currentShape"></param>
+        /// <returns></returns>
         public List<int[,]> Rotate(int currentShape)
         {
             switch (currentShape)

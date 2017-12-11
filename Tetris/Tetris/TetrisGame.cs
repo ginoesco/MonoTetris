@@ -44,6 +44,8 @@ namespace Tetris
         //Custom buttons for menus
         Button arrow, textWindow, soundWindow, pauseButton, newGame, mainMenu, loadSave;
 
+        //Save and load object 
+        SaveLoad saveload = new SaveLoad();
 
         //game menu
         private Texture2D options, background, playGame;
@@ -61,15 +63,17 @@ namespace Tetris
         private int linesCleared = 0;
         //end of game details
 
+        //Coordinates of each block on tetronimo 
         int[] xcoords = new int[4];
         int[] ycoords = new int[4];
 
+        //Starting point x,y for tetronimo block to spawn 
         int posX = 330 + pixelWidth * 4;
         int posY = 200;
 
         int count = 0;//Used in Fall method
+        public bool saved = false;
 
-        SaveLoad saveload = new SaveLoad(); 
         /// <summary>
         /// Constructor to make size of window 1k by 1k
         /// </summary>
@@ -217,7 +221,12 @@ namespace Tetris
             currentShape = nextShape;
             nextShape = rnum;
         }
-
+        /// <summary>
+        /// Up arrow function used to rotate block separated from the other arrows to allow 
+        /// their presses to move more fluidly. This function checks if up arrow is pressed 
+        /// and will obtain the corresponding rotate array of the current shape. It will iterate 
+        /// through the 4 available rotations whenever up arrow is pressed. 
+        /// </summary>
         public void KeyUp()
         {
             int blockstate = (int)gbObj.CheckPlacement(loadedBoard, shape, posX, posY);
@@ -253,6 +262,8 @@ namespace Tetris
         }
         /// <summary>
         /// Moving the blocks down, left, or right.
+        /// Updates the position X (posX) and position Y (posY) of the block 
+        /// in increments of the pixelsize (32). 
         /// </summary>
         public void MoveKeys()
         {
@@ -451,6 +462,7 @@ namespace Tetris
                         if (loadSave.update(new Vector2(newMouseState.X, newMouseState.Y)) == true && newMouseState != lastMouseState && newMouseState.LeftButton == ButtonState.Pressed)
                         {
                             //Code to save game
+                            saved = true;
                             saveload.Save(loadedBoard);
                         }
                             break;
@@ -514,6 +526,7 @@ namespace Tetris
                     linesCleared = gbObj.DeleteLines(loadedBoard, linesCleared); //Clear the lines
                     level = levelobj.CalculateLevel(level, linesCleared); //Calculate the level we are on
                     score = levelobj.CalculateScore(oldLines, linesCleared, level, score); //Calculate the score
+                    saved = false;
                     break;
             }
             base.Update(gameTime);
@@ -541,7 +554,7 @@ namespace Tetris
                     for (int k = 0; k < 4; k++)
                     {
                         if (shape[k, i] != 0)
-                        {
+                        {//checks for leftmost X to detect if block hits left wall and does the same for rightmost X for right wall. 
                             if (i < leftmostX)
                             {
                                 leftmostX = i;
@@ -561,7 +574,7 @@ namespace Tetris
 
                             spriteBatch.Draw(block, tetrisBlock = new Vector2(posX + i * pixelWidth, posY + k * pixelLength), Colors[currentShape]);
 
-                            //stores coords of each block
+                            //stores coords of tetris block 
                             if (j < 4)
                             {
                                 xcoords[j] = (int)tetrisBlock.X;
@@ -594,6 +607,7 @@ namespace Tetris
 
         /// <summary>
         /// This is called when the game should draw itself.
+        /// Draws the overlay of the tetris game 
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
@@ -700,6 +714,11 @@ namespace Tetris
                         else
                         {
                             spriteBatch.DrawString(optionFont, "Save Game", new Vector2(350, 200), Color.White);
+                        }
+                        if (saved)
+                        {
+                            spriteBatch.DrawString(optionFont, "Game Saved!", new Vector2(100, 100), Color.White);
+
                         }
 
                         if (newGame.update(new Vector2(newMouseState.X, newMouseState.Y)))
