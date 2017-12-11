@@ -67,12 +67,27 @@ namespace Tetris
         int posX = 330 + pixelWidth * 4;
         int posY = 200;
 
+        //int boundsX = boardX + pixelWidth * 8;
+        //int boundsY = boardY + pixelWidth * 16;
+        //int rotateIndex = 0;
+        //int rnum = 0;
+        int count = 0; //used in timer
+        //int currentShape = rnd.Next(1,7);
+        //int nextShape= rnd.Next(1,7);
+        //int moveLeftState = 0;
+        //int moveRightState = 0;
+        //int moveDownState = 0;
+        SaveLoad saveload = new SaveLoad(); 
+        
+
+
         int count = 0;//Used in Fall method
 
 
         /// <summary>
         /// Constructor to make size of window 1k by 1k
         /// </summary>
+
         public TetrisGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -289,6 +304,11 @@ namespace Tetris
             { //updates when enter is pressed
                 SpawnShape();
             }
+            else if (oldKeyState.IsKeyDown(Keys.S) && currentKeyState.IsKeyUp(Keys.S))
+            {
+                Console.WriteLine("Saving"); 
+                saveload.Save(loadedBoard); 
+            }
 
 
         }
@@ -480,6 +500,9 @@ namespace Tetris
                         break;
                     }
                 case game:
+
+                    Fall(levelobj.CalculateTimer(level));
+
 
 
                     if (currentKeyState != oldKeyState && currentKeyState.IsKeyDown(Keys.Home))
