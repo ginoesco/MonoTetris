@@ -10,9 +10,10 @@ namespace Tetris
 {
     class SaveLoad
     {
+        string path = @"SavedGame.txt";
+
         public void Save(int[,] gameboard)
         {
-            string path = @"SavedGame.txt"; 
             JsonSerializer serializer = new JsonSerializer();
 
             if (!File.Exists(path))
@@ -33,6 +34,12 @@ namespace Tetris
                     serializer.Serialize(writer, gameboard);
                 }
             }
+        }
+
+        public int[,] Load()
+        {
+            int[,] deserial = JsonConvert.DeserializeObject<int[,]>(File.ReadAllText(path));
+            return deserial; 
         }
     }
 }
