@@ -7,8 +7,16 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+/// <summary>
+/// Aikman Ong - 816056118
+/// Giancarlo Escolano - 813215631
+/// COMPE361 Final Project
+/// </summary>
 namespace Tetris
 {
+    /// <summary>
+    /// Class to contain the shapes we will be using in the game
+    /// </summary>
     public class Shapes : Block
     {
         List<int[,]> ShapeList = new List<int[,]>();

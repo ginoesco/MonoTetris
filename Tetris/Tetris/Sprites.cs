@@ -7,6 +7,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 
+/// <summary>
+/// Aikman Ong - 816056118
+/// Giancarlo Escolano - 813215631
+/// COMPE361 Final Project
+/// </summary>
 namespace Tetris
 {
     class Sprites
