@@ -77,7 +77,7 @@ namespace Tetris
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
+            Window.Title = "Tetris by Aikman Ong and Giancarlo Escolano";
             graphics.PreferredBackBufferWidth = 1000; //Make the game board a size 1k by 1k
             graphics.PreferredBackBufferHeight = 1000;
         }
@@ -480,8 +480,7 @@ namespace Tetris
                         break;
                     }
                 case game:
-                    Fall(levelobj.CalculateTimer(level));
-                    Console.WriteLine("Timer: {0}", levelobj.CalculateTimer(level));
+
 
                     if (currentKeyState != oldKeyState && currentKeyState.IsKeyDown(Keys.Home))
                     { //When user presses home key, increment level
@@ -501,8 +500,6 @@ namespace Tetris
                     if ((pauseButton.update(new Vector2(newMouseState.X, newMouseState.Y)) == true && newMouseState != lastMouseState && newMouseState.LeftButton == ButtonState.Pressed)
                             || (currentKeyState.IsKeyDown(Keys.LeftControl) && currentKeyState.IsKeyDown(Keys.P)))
                     {//Either user presses the pause button or user press left control+P to go to pause screen
-                            || (currentKeyState.IsKeyDown(Keys.LeftControl) && currentKeyState.IsKeyDown(Keys.P)) || (currentKeyState.IsKeyDown(Keys.Escape) && currentKeyState.IsKeyDown(Keys.Escape)))
-                    {
                         currentScreen = pauseScreen;
                     }
                     if (GameOver(loadedBoard)) //If game is over, go to game over screen
