@@ -77,6 +77,7 @@ namespace Tetris
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            this.Window.Title = "Tetris by Aikman Ong and Giancarlo Escolano";
 
             graphics.PreferredBackBufferWidth = 1000; //Make the game board a size 1k by 1k
             graphics.PreferredBackBufferHeight = 1000;
