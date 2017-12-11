@@ -69,7 +69,7 @@ namespace Tetris
 
         int count = 0;//Used in Fall method
 
-
+        SaveLoad saveload = new SaveLoad(); 
         /// <summary>
         /// Constructor to make size of window 1k by 1k
         /// </summary>
@@ -413,6 +413,9 @@ namespace Tetris
                         if (loadSave.update(new Vector2(newMouseState.X, newMouseState.Y)) == true && newMouseState != lastMouseState && newMouseState.LeftButton == ButtonState.Pressed)
                         {
                             //Code to load game
+                            Array.Copy(saveload.Load(), loadedBoard, loadedBoard.Length);
+                            gbObj.ShowBoard(loadedBoard);
+                            currentScreen = game;
                         }
                             break;
                     }
@@ -448,6 +451,7 @@ namespace Tetris
                         if (loadSave.update(new Vector2(newMouseState.X, newMouseState.Y)) == true && newMouseState != lastMouseState && newMouseState.LeftButton == ButtonState.Pressed)
                         {
                             //Code to save game
+                            saveload.Save(loadedBoard);
                         }
                             break;
                     }
