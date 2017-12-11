@@ -72,6 +72,7 @@ namespace Tetris
         int posY = 200;
 
         int count = 0;//Used in Fall method
+        public bool saved = false;
 
         /// <summary>
         /// Constructor to make size of window 1k by 1k
@@ -461,6 +462,7 @@ namespace Tetris
                         if (loadSave.update(new Vector2(newMouseState.X, newMouseState.Y)) == true && newMouseState != lastMouseState && newMouseState.LeftButton == ButtonState.Pressed)
                         {
                             //Code to save game
+                            saved = true;
                             saveload.Save(loadedBoard);
                         }
                             break;
@@ -524,6 +526,7 @@ namespace Tetris
                     linesCleared = gbObj.DeleteLines(loadedBoard, linesCleared); //Clear the lines
                     level = levelobj.CalculateLevel(level, linesCleared); //Calculate the level we are on
                     score = levelobj.CalculateScore(oldLines, linesCleared, level, score); //Calculate the score
+                    saved = false;
                     break;
             }
             base.Update(gameTime);
@@ -711,6 +714,11 @@ namespace Tetris
                         else
                         {
                             spriteBatch.DrawString(optionFont, "Save Game", new Vector2(350, 200), Color.White);
+                        }
+                        if (saved)
+                        {
+                            spriteBatch.DrawString(optionFont, "Game Saved!", new Vector2(100, 100), Color.White);
+
                         }
 
                         if (newGame.update(new Vector2(newMouseState.X, newMouseState.Y)))

@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.IO;
 
+/// <summary>
+/// Aikman Ong - 816056118
+/// Giancarlo Escolano - 813215631
+/// COMPE361 Final Project
+/// </summary>
 namespace Tetris
 {
     public class SaveLoad

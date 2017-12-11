@@ -205,6 +205,7 @@ namespace Tetris
         /// <summary>
         /// Eliminates lines when completed lines are present 
         /// copies rows above it and rechecks them to make sure they're completed or not. 
+        /// https://www.gamedev.net/articles/programming/general-and-gameplay-programming/retro-games-how-to-make-a-tetris-like-game-r2965/
         /// </summary>
         /// <param name="gameArray"></param>
         /// <param name="linesCleared"></param>
