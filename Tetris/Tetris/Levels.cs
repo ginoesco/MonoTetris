@@ -113,7 +113,8 @@ namespace Tetris
         }
 
         /// <summary>
-        /// Calculate the score of
+        /// Calculates the current score after every line completion 
+        /// checks level if it needs to be incremented. 
         /// </summary>
         /// <param name="oldLines"></param>
         /// <param name="newLines"></param>
