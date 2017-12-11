@@ -77,7 +77,7 @@ namespace Tetris
         //int moveLeftState = 0;
         //int moveRightState = 0;
         //int moveDownState = 0;
-
+        SaveLoad saveload = new SaveLoad(); 
         
         public TetrisGame()
         {
@@ -317,6 +317,11 @@ namespace Tetris
             { //updates when enter is pressed
                 SpawnShape();
             }
+            else if (oldKeyState.IsKeyDown(Keys.S) && currentKeyState.IsKeyUp(Keys.S))
+            {
+                Console.WriteLine("Saving"); 
+                saveload.Save(loadedBoard); 
+            }
 
 
         }
@@ -458,7 +463,6 @@ namespace Tetris
                     }
                 case game:
                     Fall(levelobj.CalculateTimer(level));
-                    Console.WriteLine("Timer: {0}", levelobj.CalculateTimer(level));
                     if (currentKeyState != oldKeyState && currentKeyState.IsKeyDown(Keys.Home))
                     {
                         level++;
