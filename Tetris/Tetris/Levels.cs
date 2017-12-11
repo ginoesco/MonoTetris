@@ -4,33 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-/// <summary>
-/// Aikman Ong - 816056118
-/// Giancarlo Escolano - 813215631
-/// COMPE361 Final Project
-/// </summary>
 namespace Tetris
 {
-    /// <summary>
-    /// class is used to calculate the level we are on, how many lines are cleared, score, and the timer to vary the fall speed of the blocks
-    /// </summary>
     public class Levels
     {
         
 
-        /// <summary>
-        /// Depending on which level we are on or how many lines we clear, the game will adjust the level
-        /// </summary>
-        /// <param name="level"></param>
-        /// <param name="linesCleared"></param>
-        /// <returns></returns>
         public int CalculateLevel(int level, int linesCleared)
         {
-            if (level >=9)
-            {
-                level = 9;
-            }
-            else if (level == 9 || (linesCleared >= 160))
+            if (level == 9 || (linesCleared >= 160))
             {
                 level = 9;
             }
@@ -62,18 +44,17 @@ namespace Tetris
             {
                 level = 2;
             }
-            else if ( level ==1 || (linesCleared >= 0 && linesCleared < 20))
+            else if ((linesCleared >= 0 && linesCleared < 20))
             {
                 level = 1;
+            }
+            else
+            {
+                level = 9;
             }
             return level; 
         }
 
-        /// <summary>
-        /// Depending on which level we are on, the timer will vary
-        /// </summary>
-        /// <param name="level"></param>
-        /// <returns></returns>
         public int CalculateTimer(int level)
         {
             int timer;
@@ -112,14 +93,6 @@ namespace Tetris
             return timer;
         }
 
-        /// <summary>
-        /// Calculate the score of
-        /// </summary>
-        /// <param name="oldLines"></param>
-        /// <param name="newLines"></param>
-        /// <param name="level"></param>
-        /// <param name="score"></param>
-        /// <returns></returns>
         public int CalculateScore(int oldLines, int newLines, int level, int score)
         {
             switch (newLines - oldLines)

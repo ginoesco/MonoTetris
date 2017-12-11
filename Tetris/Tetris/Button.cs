@@ -6,16 +6,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
-/// <summary>
-/// Aikman Ong - 816056118
-/// Giancarlo Escolano - 813215631
-/// COMPE361 Final Project
-/// </summary>
 namespace Tetris
 {
-    /// <summary>
-    /// Custom class to make clickable buttons for our menus
-    /// </summary>
     class Button
     {
         Rectangle posSize;
@@ -24,9 +16,7 @@ namespace Tetris
         Texture2D image;
 
 
-        /// <summary>
-        /// Constructor to make a button if no parameters are defined
-        /// </summary>
+        //Constructor
         public Button()
         {
             posSize = new Rectangle(100, 100, 100, 50);
@@ -34,11 +24,7 @@ namespace Tetris
             available = true;
         }
 
-        /// <summary>
-        /// Overloaded constructor to make button custom size
-        /// </summary>
-        /// <param name="rec"></param>
-        /// <param name="avail"></param>
+        //OverLoaded Constructor
         public Button(Rectangle rec, bool avail)
         {
             posSize = rec;
@@ -46,21 +32,13 @@ namespace Tetris
             clicked = false;
         }
 
-        /// <summary>
-        /// Load any custom content
-        /// </summary>
-        /// <param name="content"></param>
-        /// <param name="name"></param>
+        //Load Content
         public void load(ContentManager content, string name)
         {
             image = content.Load<Texture2D>(name);
         }
 
-        /// <summary>
-        /// To check to see if the current mouses state is in the boundaries of the button defined in the constructor
-        /// </summary>
-        /// <param name="mouse"></param>
-        /// <returns></returns>
+        //Update
         public bool update(Vector2 mouse)
         {
             if (mouse.X >= posSize.X && mouse.X <= posSize.X + posSize.Width && mouse.Y >= posSize.Y && mouse.Y <= posSize.Y + posSize.Height)
@@ -103,9 +81,7 @@ namespace Tetris
         }
 
 
-        /// <summary>
-        /// Properties for Clicked, available, and PosSize.
-        /// </summary>
+        //Getters and Setters
         public bool Clicked
         {
 
